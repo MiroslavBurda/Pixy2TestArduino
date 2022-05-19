@@ -51,7 +51,8 @@ esp_err_t LinkI2C::sendData(const uint8_t *data, size_t len) const
         
         RETURN_IF_ERR(i2c_master_start(cmd));
         RETURN_IF_ERR(i2c_master_write_byte(cmd, m_address << 1, true));
-        RETURN_IF_ERR(i2c_master_write(cmd, data, chunk, I2C_MASTER_LAST_NACK));
+        // RETURN_IF_ERR(i2c_master_write(cmd, data, chunk, I2C_MASTER_LAST_NACK)); // esp-idf variant
+        RETURN_IF_ERR(i2c_master_write(cmd, (uint8_t*)data, chunk, I2C_MASTER_LAST_NACK));
         RETURN_IF_ERR(i2c_master_stop(cmd));
         RETURN_IF_ERR(i2c_master_cmd_begin(m_bus_num, cmd, pdMS_TO_TICKS(25)));
 

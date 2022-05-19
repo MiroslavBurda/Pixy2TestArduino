@@ -46,12 +46,12 @@ public:
         {
             const size_t chunk = std::min(sizeof(zerobuf), len);
 
-            spi_transaction_t trans = {
-                .flags = 0,
-                .length = chunk * 8,
-                .tx_buffer = zerobuf,
-                .rx_buffer = dest,
-            };
+            spi_transaction_t trans;
+            trans.flags = 0;
+            trans.length = chunk * 8;
+            trans.tx_buffer = zerobuf;
+            trans.rx_buffer = dest;
+            
 
             auto err = spi_device_transmit(m_spiDev, &trans);
             if (err != ESP_OK)
@@ -65,11 +65,11 @@ public:
     }
 
     esp_err_t sendData(const uint8_t *data, size_t len) const {
-        spi_transaction_t trans = {
-            .flags = 0,
-            .length = len * 8,
-            .tx_buffer = data,
-        };
+        spi_transaction_t trans;
+        trans.flags = 0;
+        trans.length = len * 8;
+        trans.tx_buffer = data;
+        
         return spi_device_transmit(m_spiDev, &trans);
     }
 
